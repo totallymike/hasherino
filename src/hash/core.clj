@@ -5,10 +5,12 @@
     BZip2CompressorInputStream)))
 
 (defn- bz2-reader
+  "A stream to read a compressed dictionary file"
   [filename]
   (-> filename io/file io/input-stream BZip2CompressorInputStream. io/reader))
 
 (defn- fits-parameters
+  "Decide whether a word meets the criteria for the challenge"
   [length characters subject]
   (let [character-set (set characters)]
     (and
@@ -28,7 +30,7 @@
 (def ^{:const true}
   starting-h 7)
 
-(defn calculate
+(defn- calculate
   [h letter]
   (+
    (* h 37)
@@ -36,7 +38,7 @@
     letters
     (str letter))))
 
-(defn- perform [str]
+(defn perform [str]
   (reduce calculate starting-h str))
 
 (defn find-question [answer length]
